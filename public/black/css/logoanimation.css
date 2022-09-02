@@ -1,0 +1,77 @@
+/* animation 2 */
+ul li {
+    list-style:none;
+  }
+  .headeranimation{
+    display:block;
+    position:relative;
+    line-height:50px;
+    font-size:40px;
+    text-align:center;
+    text-decoration:none;
+    transition:.5s;
+  }
+  .headeranimation span {
+    position:absolute;
+    transition: transform .5s;
+  }
+  .headeranimation span:nth-child(1),
+  .headeranimation span:nth-child(3){
+    width:100%;
+    height:3px;
+    background:#404040;
+  }
+  .headeranimation span:nth-child(1) {
+    top:0;
+    left:0;
+    transform-origin: right;
+  }
+  .headeranimation:hover span:nth-child(1) {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition:transform .5s;
+  }
+  
+  .headeranimation span:nth-child(3) {
+    bottom:0;
+    left:0;
+    transform-origin: left;
+  }
+  .headeranimation:hover span:nth-child(3) {
+    transform: scaleX(0);
+    transform-origin: right;
+    transition:transform .5s;
+  }
+  
+  .headeranimation span:nth-child(2),
+  .headeranimation span:nth-child(4){
+    width:3px;
+    height:100%;
+    background:#404040;
+  }
+  .headeranimation span:nth-child(2) {
+    top:0;
+    left:0;
+    transform:scale(0);
+    transform-origin: bottom;
+  }
+  .headeranimation:hover span:nth-child(2) {
+    transform: scale(1);
+    transform-origin: top;
+    transition:transform .5s;
+  }
+  .headeranimation span:nth-child(4) {
+    top:0;
+    right:0;
+    transform:scale(0);
+    transform-origin: top;
+  }
+  .headeranimation:hover span:nth-child(4) {
+    transform: scale(1);
+    transform-origin: bottom;
+    transition:transform .5s;
+  }
+  .headeranimation:hover span { 
+    background: #07ac4b;
+  }
+          /* end animation 2 */
