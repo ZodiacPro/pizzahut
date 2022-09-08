@@ -46,32 +46,29 @@
     <div class="col-md-12">
         <div class="card card-color">
             <div class="row loading-card pt-1 mt-1">
-                <div class="col-md-2 text-center">
-                    <select class="btn-block m-2 p-1 text-center selector">
-                        <option>text</option>
-                    </select>
+                <div class="col-md-4 text-center">
+                   
                 </div>
-                <div class="col-md-2 text-center">
-                    <select class="btn-block m-2 p-1 text-center selector">
-                        <option >text</option>
-                    </select>
+                <div class="col-md-4 text-center">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <select class="btn-block m-2 p-1 text-center selector" name="sensor_id" id="sensor_id">
+                
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <input class="selector m-2 p-1 btn-block text-center" type="month" name="date" id="date">
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-3 text-center">
-                    <select class="btn-block m-2 p-1 text-center selector" name="sensor_id" id="sensor_id">
-                        <option>Sensor Name</option>
-                    </select>
-                </div>
-                <div class="col-md-3 text-center">
-                    <input class="selector m-2 p-1 btn-block text-center" type="month" name="date" id="date">
-                </div>
-                <div class="col-md-2 text-right">
+                <div class="col-md-4 text-right">
                     <button class="btns infos p-1 mr-3 mt-2" id="query" name="query">Query</button>
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h4>Some TEXT</h4>
+                    <h4>Some TEXT - <span id="date_text"></span> &nbsp; <span id="sensor_id_text"></span> </h4>
                 </div>
                 <div class="col-md-12 text-center" style="height: 300px">
                     <canvas id="myChart"></canvas>
@@ -111,13 +108,19 @@
                         max: 100,
                         step: 20,
                         ticks: {
-                            color: "#ffffff"
+                            color: "#62cee9"
                         },
+                        grid: {
+                            color: '#42617e'
+                        }
                     },
                     x: {
                         ticks: {
-                            color: "#ffffff"
+                            color: "#62cee9"
                         },
+                        grid: {
+                             color: '#42617e'
+                        }
                     },
                 },
             }
@@ -136,7 +139,7 @@
                 data: {type: 'card1'},
                 success: function (data) {
                     for($x = 0; $x < data.length; $x++){
-                        if(data[$x].humidity != 0){
+                        if(data[$x].humidity != null){
                         $rawHTML =
                         `
                         <div class="col-sm-4 text-center">
@@ -185,6 +188,10 @@
                 url: '{{route("main")}}',
                 data: {type: 'graph', id: $('#sensor_id').val(), date: $('#date').val()},
                 success: function (data) {
+                    // setting name
+                    $('#sensor_id_text').html($( "#sensor_id option:selected" ).text());
+                    $('#date_text').html($('#date').val());
+                    // updating chart
                     myChart.data.labels = [];
                     myChart.data.datasets = [{
                         label: data[0]['name'],

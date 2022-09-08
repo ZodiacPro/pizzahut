@@ -12,7 +12,7 @@ class CardDataController extends Controller
     public function Sensor_data(){
         // Query for sensor's Data
         $data = view_demo_temp_hum::whereRaw("times IN (SELECT MAX(times) FROM view_demo_temp_hum GROUP BY sensor_id)")
-                    ->orderBy('description')
+                    ->orderBy('sensor_id','asc')
                     ->get();
         return $data;
     }
@@ -21,9 +21,10 @@ class CardDataController extends Controller
         $to_array_total = 0;
         $month = date('m', strtotime($date));
         $year = date('Y', strtotime($date));
-        $items = view_demo_temp_hum::selectRaw('min(temperature) as temperature, humidity, day(times) as times')
+        $items = view_demo_temp_hum::selectRaw('avg(temperature) as temperature, avg(humidity) as humidity, day(times) as times')
                     ->whereRaw("year(times) = $year")
                     ->whereRaw("month(times) = $month")
+                    ->where('sensor_id',$id)
                     ->groupByRaw('day(times)')
                     ->orderby('times', 'asc')
                     ->get();;
