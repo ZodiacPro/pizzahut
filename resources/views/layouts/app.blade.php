@@ -169,6 +169,20 @@
             font-weight: bold;
         }
         /*  */
+        ::-webkit-scrollbar {
+            width: 2px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            border-radius: 100vh;
+            background: #1f2937;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(rgb(134, 239, 172), rgb(59, 130, 246), rgb(147, 51, 234));
+        }
 
 
 
@@ -176,15 +190,27 @@
     </head>
     <body class="{{ $class ?? '' }}">
         @auth()
-            <div class="wrapper">
+            {{-- <div class="wrapper">
                     @include('layouts.navbars.sidebar')
                 <div class="main-panel">
                     @include('layouts.navbars.navbar')
 
-                    <div class="content">
+                    <div class="content" style="max-width: 100vw">
                         @yield('content')
                     </div>
 
+                    @include('layouts.footer')
+                </div>
+            </div> --}}
+            @include('layouts.navbars.navbar')
+            @include('layouts.navbars.sidebar')
+            <div class="wrapper wrapper-full-page" onclick="closeNav()">
+                <div class="full-page {{ $contentClass ?? '' }}" >
+                    <div class="content" style="padding-top: 20px;">
+                        <div class="container" style="max-width: 100vw">
+                            @yield('content')
+                        </div>
+                    </div>
                     @include('layouts.footer')
                 </div>
             </div>
@@ -195,7 +221,7 @@
             @include('layouts.navbars.navbar')
             @include('layouts.navbars.sidebar')
             <div class="wrapper wrapper-full-page" onclick="closeNav()">
-                <div class="full-page {{ $contentClass ?? '' }}">
+                <div class="full-page {{ $contentClass ?? '' }}" style='background-image: url("/black/img/loginbg.jpg");background-color: #cccccc;background-repeat: no-repeat;background-size: cover;background-position: center center;'>
                     <div class="content" style="padding-top: 20px;">
                         <div class="container" style="max-width: 100vw">
                             @yield('content')

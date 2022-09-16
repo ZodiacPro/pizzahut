@@ -16,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 //------------------------ Button URL
-Route::group([], function () {
+Route::group(['middleware' => 'auth'], function () {
 	Route::get('/', 'App\Http\Controllers\HomeController@index')->name('main');
 });

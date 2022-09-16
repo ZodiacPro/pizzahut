@@ -56,4 +56,15 @@ class CardDataController extends Controller
 
        return $data;
     }
+    public function alerts(){
+        // Query for sensor's alerts
+
+        // $min_date = $_ENV['ALERT_DATE_MIN'];
+        // $max_date = $_ENV['ALERT_DATE_MAX'];
+        $data = DB::table('demo_alarm')
+                // ->whereRaw("times BETWEEN '$min_date' AND '$max_date' ")
+                ->orderBy('times','desc')
+                ->get();
+        return $data;
+    }
 }

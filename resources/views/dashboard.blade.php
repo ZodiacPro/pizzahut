@@ -28,16 +28,23 @@
             </div>
         </div>
     <div class="col-md-5">
-        <div class="card card-color second">
-            <div class="row loading-card">
-               <div class="col-sm-6 text-center">
+        <div class="card card-color second " style="overflow: scroll; overflow-x: hidden;">
+            <div class="row loading-card" id="alert_div" >
+                <div class="col-sm-1 text-center">
+                    <br>
+                    <i class="fa-solid fa-business-time text-white" style="cursor: pointer"></i>
+                </div>
+               <div class="col-sm-5 text-center">
                 <br>
-                    <h5 class="blue-text">MSG</h5>
+                    <h5 class="blue-text">告警訊息<span class="badge badge-pill badge-danger" id="alert_count">0</span></h5>
                </div>
-               <div class="col-sm-6 text-center">
+               <div class="col-sm-5 text-center">
                 <br>
-                    <h5 class="blue-text">TIME</h5>
-            </div>
+                    <h5 class="blue-text">時間</h5>
+                </div>
+                <div class="col-sm-1 text-center">
+
+                </div>
             </div>
         </div>
     </div>
@@ -68,7 +75,7 @@
             <br>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h4>Some TEXT - <span id="date_text"></span> &nbsp; <span id="sensor_id_text"></span> </h4>
+                    <h4>Some TEXT - <span id="date_text"></span> &nbsp; <span id="sensor_id_text" ></span> </h4>
                 </div>
                 <div class="col-md-12 text-center" style="height: 300px">
                     <canvas id="myChart"></canvas>
@@ -132,6 +139,8 @@
         setInterval(function() {
             cache_clear()
         }, 180000);
+
+
         // --- Card Data
         $.ajax({
                 type: 'GET',
@@ -181,6 +190,43 @@
                     $(".second").height($(".first").height());
                 }
             });
+
+
+        // --- Alert Data 
+        $.ajax({
+                type: 'GET',
+                url: '{{route("main")}}',
+                data: {type: 'alert'},
+                success: function (data) {
+                    $('#alert_count').html(data.length);
+
+                    for($x = 0; $x < data.length; $x++){
+                        $rawHTML =
+                        `
+                        <div class="col-sm-1 text-center">
+                            <br>
+                        </div>
+                        <div class="col-sm-5 text-center">
+                            <br>
+                                <h5 class="blue-text">${data[$x].alarm}</h5>
+                        </div>
+                        <div class="col-sm-5 text-center">
+                            <br>
+                                <h5 class="blue-text">${data[$x].times}</h5>
+                            </div>
+                            <div class="col-sm-1 text-center">
+                                <br>
+                                <a href="" data="${data[$x].id}"><i class="fa-solid fa-brush text-danger"></i></a>
+                            </div>
+                        `;
+                        $( "#alert_div" ).append($rawHTML);
+                    }
+                }
+            });
+
+
+
+
         // Graph
         $('#query').click(function(){
             $.ajax({

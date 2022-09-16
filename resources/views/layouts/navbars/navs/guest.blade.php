@@ -1,5 +1,5 @@
 
-<nav class="navbar navbar-expand-lg" style="background: #194262">
+{{-- <nav class="navbar navbar-expand-lg" style="background: #194262">
     <a href="{{ route('main') }}" class="nav-link">
         <i class="fa-solid fa-list"></i>
     </a>
@@ -26,4 +26,4 @@
         </div>  
       </div>
     </div>
-</nav>
+</nav> --}}
