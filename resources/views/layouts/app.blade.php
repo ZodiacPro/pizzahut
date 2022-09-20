@@ -183,6 +183,9 @@
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(rgb(134, 239, 172), rgb(59, 130, 246), rgb(147, 51, 234));
         }
+        .date_btn{
+            background: transparent;
+        }
 
 
 

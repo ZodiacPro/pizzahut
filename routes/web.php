@@ -18,4 +18,13 @@ Auth::routes();
 //------------------------ Button URL
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/', 'App\Http\Controllers\HomeController@index')->name('main');
+
+	Route::get('/threshold', 'App\Http\Controllers\HomeController@threshold')->name('threshold');
+	Route::post('/threshold', 'App\Http\Controllers\HomeController@threshold')->name('threshold');
+
+	Route::get('/alarm', 'App\Http\Controllers\HomeController@alarm')->name('alarm');
+	Route::post('/alarm', 'App\Http\Controllers\HomeController@alarm')->name('alarm');
+
+	Route::get('/history', 'App\Http\Controllers\HomeController@history')->name('history');
+	Route::post('/history', 'App\Http\Controllers\HomeController@history')->name('history');
 });

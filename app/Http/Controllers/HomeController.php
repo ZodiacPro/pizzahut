@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use DB;
 
 class HomeController extends Controller
 {
@@ -28,7 +29,7 @@ class HomeController extends Controller
             return $cardData;
         }
         if($request->type === 'graph'){
-            $cardData = app('App\Http\Controllers\CardDataController')->sensor_graph($request->id,$request->date);  
+            $cardData = app('App\Http\Controllers\CardDataController')->sensor_graph($request->id,$request->date,$request->trig);  
             return $cardData;
         }
         if($request->type === 'alert'){
@@ -36,6 +37,51 @@ class HomeController extends Controller
             return $cardData;
         }
         return view('dashboard');
+    }
+    public function threshold(Request $request)
+    {   
+        if($request->type === 'list'){
+            $cardData = app('App\Http\Controllers\CardDataController')->threshold();  
+            return $cardData;
+        }
+        if($request->type === 'update'){
+            $cardData = app('App\Http\Controllers\CardDataController')->threshold();  
+           
+            for($x=0; $x < count($cardData); $x++){
+                $formData = ([
+                    'max_t' => $request[$x."-max_t"],
+                    'min_t' => $request[$x."-min_t"],
+                    'max_h' => $request[$x."-max_h"],
+                    'min_h' => $request[$x."-min_h"],
+                ]);
+                $demo = DB::table('demo_sensor')
+                    ->where('sensor_id', $request[$x."-sensor_id"])
+                    ->update($formData);
+            }
+        }
+        return view('page.threshold');
+    }
+    public function alarm(Request $request)
+    {   
+        if($request->type === 'list'){
+            $cardData = app('App\Http\Controllers\CardDataController')->alerts_filtered($request->date_from,$request->date_to);  
+            return $cardData;
+        }
+        return view('page.alarm');
+    }
+    public function history(Request $request)
+    {   
+        if($request->type === 'list'){
+            $cardData = app('App\Http\Controllers\CardDataController')->history($request->sensor_id,$request->date_from,$request->date_to);  
+            return $cardData;
+        }
+        if($request->type === 'csv'){
+            $cardData = app('App\Http\Controllers\CardDataController')->history_download($request->sensor_id,$request->date_from,$request->date_to);  
+            return $cardData;
+        }
+
+        $sensor = app('App\Http\Controllers\CardDataController')->threshold();
+        return view('page.history', compact('sensor'));
     }
 
     protected function changeEnv($data = array()){

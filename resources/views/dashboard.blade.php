@@ -13,11 +13,10 @@
                         <div class="col-md-3 text-center blue-text border-bottom border-info">
                         </div>
                         <div class="col-md-6 text-center border-bottom border-info">
-                            <h5 class="blue-text">PUT TEXT HERE</h5>
+                            <h5 class="blue-text">環境監控資訊</h5>
                         </div>
                         <div class="col-md-3 text-right blue-text border-bottom border-info">
-                            <button class="btns successs">2</button>
-                            <button class="btns dangers">1</button>
+                            <a href="{{route('threshold')}}" class="blue-text"><i class="fa-solid fa-screwdriver-wrench"></i></a>
                         </div>
                     </div>
                     <div class="row firstcard">
@@ -28,23 +27,25 @@
             </div>
         </div>
     <div class="col-md-5">
-        <div class="card card-color second " style="overflow: scroll; overflow-x: hidden;">
-            <div class="row loading-card" id="alert_div" >
-                <div class="col-sm-1 text-center">
-                    <br>
-                    <i class="fa-solid fa-business-time text-white" style="cursor: pointer"></i>
+        <div class="card card-color second " >
+            <div class="card-header">
+                <div class="row loading-card" >
+                    <div class="col-sm-1 text-right">
+                        <a href="" class="blue-text"><i class="fa-solid fa-business-time"></i></a>
+                    </div>
+                <div class="col-sm-5 text-center">
+                        <h5 class="blue-text">告警訊息<span class="badge badge-pill badge-danger" id="alert_count">0</span></h5>
                 </div>
-               <div class="col-sm-5 text-center">
-                <br>
-                    <h5 class="blue-text">告警訊息<span class="badge badge-pill badge-danger" id="alert_count">0</span></h5>
-               </div>
-               <div class="col-sm-5 text-center">
-                <br>
-                    <h5 class="blue-text">時間</h5>
-                </div>
-                <div class="col-sm-1 text-center">
+                <div class="col-sm-5 text-center">
+                        <h5 class="blue-text">時間</h5>
+                    </div>
+                    <div class="col-sm-1 text-center">
 
+                    </div>
                 </div>
+            </div>
+            <div class="row" style="overflow: scroll; overflow-x: hidden;"  id="alert_div">
+
             </div>
         </div>
     </div>
@@ -53,8 +54,9 @@
     <div class="col-md-12">
         <div class="card card-color">
             <div class="row loading-card pt-1 mt-1">
-                <div class="col-md-4 text-center">
-                   
+                <div class="col-md-4 text-left">
+                   <button type="button" class="mt-2 ml-4 date_btn text-success border border-success" id="btn_month">月</button>
+                   <button type="button" class="mt-2 ml-2 date_btn text-danger border border-danger" id="btn_day">日</button>
                 </div>
                 <div class="col-md-4 text-center">
                     <div class="row">
@@ -64,18 +66,22 @@
                             </select>
                         </div>
                         <div class="col-sm-6">
-                            <input class="selector m-2 p-1 btn-block text-center" type="month" name="date" id="date">
+                            <input class="selector m-2 p-1 btn-block text-center" type="month" name="date_by_month" id="date_by_month">
+                            <input class="selector m-2 p-1 btn-block text-center" type="date" name="date_by_day" id="date_by_day">
+                            <input class="selector m-2 p-1 btn-block text-center" type="text" name="query_type" value="month" id="query_type" style="display: none">
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 text-right">
+                    <a href="" class="blue-text"><i class="fa-solid fa-clock"></i></a>
+                    &nbsp;&nbsp;
                     <button class="btns infos p-1 mr-3 mt-2" id="query" name="query">Query</button>
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h4>Some TEXT - <span id="date_text"></span> &nbsp; <span id="sensor_id_text" ></span> </h4>
+                    <h4>環境監控歷史資訊 - <span id="date_text"></span> &nbsp; <span id="sensor_id_text" ></span> </h4>
                 </div>
                 <div class="col-md-12 text-center" style="height: 300px">
                     <canvas id="myChart"></canvas>
@@ -87,6 +93,12 @@
 
 @push('js')
     <script>
+        // declaration
+
+        $("#date_by_day").hide();
+
+
+        // 
         var queryData = [];
         var label = [];
 
@@ -229,14 +241,24 @@
 
         // Graph
         $('#query').click(function(){
+            $trigDate = "";
+            if($("#query_type").val() == "month"){
+                $trigDate = $('#date_by_month').val();
+                $x =  new Date($('#date_by_month').val());
+                $days = new Date($x.getFullYear(), $x.getMonth() + 1, 0).getDate();
+                $('#date_text').html($('#date_by_month').val());
+            }else{
+                $trigDate = $('#date_by_day').val();
+                $days = 23;
+                $('#date_text').html($('#date_by_day').val());
+            }
             $.ajax({
                 type: 'GET',
                 url: '{{route("main")}}',
-                data: {type: 'graph', id: $('#sensor_id').val(), date: $('#date').val()},
+                data: {type: 'graph', id: $('#sensor_id').val(), date: $trigDate, trig: $("#query_type").val()},
                 success: function (data) {
                     // setting name
                     $('#sensor_id_text').html($( "#sensor_id option:selected" ).text());
-                    $('#date_text').html($('#date').val());
                     // updating chart
                     myChart.data.labels = [];
                     myChart.data.datasets = [{
@@ -253,8 +275,7 @@
                         borderWidth: 3,
                         lineTension: .4,
                     });
-                    $x =  new Date($('#date').val());
-                    $days = new Date($x.getFullYear(), $x.getMonth() + 1, 0).getDate();
+                    
                     for (let i = 1; i <= $days; i++){
                         myChart.data.labels.push(i);
                         myChart.update();
@@ -262,6 +283,19 @@
                 }
             });
           });
+
+
+          // Graph data switcher
+          $("#btn_month").click(function(){
+                $("#date_by_day").hide();
+                $("#date_by_month").show();
+                $("#query_type").val("month");
+          })
+          $("#btn_day").click(function(){
+                $("#date_by_day").show();
+                $("#date_by_month").hide();
+                $("#query_type").val("day");
+          })
         })
     </script>
 @endpush
