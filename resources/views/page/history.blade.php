@@ -50,6 +50,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
+                    <a href="{{route('main')}}" class="btn btn-info">Back</a>
                 </div>
             </div>
         </form>

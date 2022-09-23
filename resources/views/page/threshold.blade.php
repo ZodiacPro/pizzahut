@@ -30,6 +30,7 @@
                 </div>
                 <div class="card-footer text-right">
                     <button class="btn btn-info" type="submit">Update</button>
+                    <a href="{{route('main')}}" class="btn btn-danger">Cancel</a>
                 </div>
             </div>
         </form>

@@ -31,7 +31,7 @@
             <div class="card-header">
                 <div class="row loading-card" >
                     <div class="col-sm-1 text-right">
-                        <a href="" class="blue-text"><i class="fa-solid fa-business-time"></i></a>
+                        <a href="{{route('alarm')}}" class="blue-text"><i class="fa-solid fa-business-time"></i></a>
                     </div>
                 <div class="col-sm-5 text-center">
                         <h5 class="blue-text">告警訊息<span class="badge badge-pill badge-danger" id="alert_count">0</span></h5>
@@ -73,7 +73,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 text-right">
-                    <a href="" class="blue-text"><i class="fa-solid fa-clock"></i></a>
+                    <a href="{{route('history')}}" class="blue-text"><i class="fa-solid fa-clock"></i></a>
                     &nbsp;&nbsp;
                     <button class="btns infos p-1 mr-3 mt-2" id="query" name="query">Query</button>
                 </div>
