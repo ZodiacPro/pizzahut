@@ -19,7 +19,7 @@
 <script>
 var result = bowser.getParser(window.navigator.userAgent);
 console.log(result);
-$('#footnote').html("You are using " + result.parsedResult.browser.name +
+$('#footnote').html("Resolution "+screen.width+" x "+screen.height + " - " +result.parsedResult.browser.name +
                " v" + result.parsedResult.browser.version + 
                " on " + result.parsedResult.os.name);
 </script>
