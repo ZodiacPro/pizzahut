@@ -12,7 +12,8 @@ class CardDataController extends Controller
     // Function to Get SensorData
     public function Sensor_data(){
         // Query for sensor's Data
-        $data = view_demo_temp_hum::whereRaw("times IN (SELECT MAX(times) FROM view_demo_temp_hum GROUP BY sensor_id)")
+        $data = view_demo_temp_hum::selectRaw("DISTINCT sensor_id, humidity, temperature, description")
+                    ->whereRaw("times IN (SELECT MAX(times) FROM view_demo_temp_hum GROUP BY sensor_id, description)")
                     ->orderBy('sensor_id','asc')
                     ->get();
         return $data;
