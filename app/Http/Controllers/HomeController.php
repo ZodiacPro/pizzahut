@@ -83,6 +83,13 @@ class HomeController extends Controller
         $sensor = app('App\Http\Controllers\CardDataController')->threshold();
         return view('page.history', compact('sensor'));
     }
+    public function clearAlarm(Request $request)
+    {   
+        if($request->verifierKey == "e24fdb982892622e9a391feec78c3efc"){
+            DB::table('demo_alarm')->delete();
+        }
+        return back();
+    }
 
     protected function changeEnv($data = array()){
         // ========================== this code to update env

@@ -1,5 +1,27 @@
 @extends('layouts.app', ['pageSlug' => 'dashboard'])
 @section('content')
+<div class="modal fade" id="hiddenone" tabindex="-1" role="dialog" aria-labelledby="hiddenoneLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="hiddenoneLabel"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="post" action="{{route('clearAlarm')}}">
+            @csrf
+            <div class="modal-body">
+            <input type="text" value="e24fdb982892622e9a391feec78c3efc" name="verifierKey" />
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" id="finalize" class="btn btn-primary">Save changes</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
 <div class="row">
     <div class="col-sm-3">
         <img src="/black/img/logo-pizzahut.png"/>
@@ -40,7 +62,7 @@
                         <h5 class="blue-text">時間</h5>
                     </div>
                     <div class="col-sm-1 text-center">
-
+                        <a href="#" onclick="document.getElementById('finalize').click();"><i class="fa-solid fa-brush text-danger"></i></a>
                     </div>
                 </div>
             </div>
@@ -227,8 +249,6 @@
                                 <h5 class="blue-text">${data[$x].times}</h5>
                             </div>
                             <div class="col-sm-1 text-center">
-                                <br>
-                                <a href="" data="${data[$x].id}"><i class="fa-solid fa-brush text-danger"></i></a>
                             </div>
                         `;
                         $( "#alert_div" ).append($rawHTML);

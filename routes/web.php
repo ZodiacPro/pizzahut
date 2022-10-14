@@ -27,4 +27,6 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('/history', 'App\Http\Controllers\HomeController@history')->name('history');
 	Route::post('/history', 'App\Http\Controllers\HomeController@history')->name('history');
+
+	Route::post('/clear', 'App\Http\Controllers\HomeController@clearAlarm')->name('clearAlarm');
 });
